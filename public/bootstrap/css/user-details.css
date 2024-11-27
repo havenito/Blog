@@ -1,0 +1,64 @@
+.hover-illuminate {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.hover-illuminate:hover {
+    transform: scale(1.05);
+    background-color: rgba(0, 123, 255, 0.2);
+    color: white;
+}
+
+.btn-success.hover-illuminate:hover {
+    background-color: #28a745;
+}
+
+.btn-danger.hover-illuminate:hover {
+    background-color: #dc3545;
+}
+
+.btn-warning.hover-illuminate:hover {
+    background-color: #ffc107;
+}
+
+.btn-primary.hover-illuminate:hover {
+    background-color: #007bff;
+}
+
+/* Style de la table */
+.table-bordered th, .table-bordered td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Badges personnalisés */
+.badge {
+    font-size: 0.85rem;
+    padding: 0.5em 0.8em;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+}
+
+.badge.bg-primary {
+    background-color: #007bff;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d;
+}
+
+/* Titres */
+.text-dark {
+    color: #343a40 !important;
+}

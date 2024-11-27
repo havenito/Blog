@@ -1,0 +1,161 @@
+/* Styles généraux */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Titre principal de la page */
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInAnimation 1.5s ease-in-out;
+}
+
+/* Animation fade-in pour les éléments */
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section de la page de connexion */
+.container {
+    max-width: 1100px; /* Augmentation de la largeur */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+.card-header {
+    background-color: #6c63ff;
+    color: white;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Champs du formulaire */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-control {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.form-control:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+}
+
+.text-danger {
+    color: #e74a3b;
+    font-size: 0.875rem;
+}
+
+/* Boutons */
+.btn {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 30px;
+    padding: 12px 30px;
+    width: 100%;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+}
+
+.btn-primary:hover {
+    background-color: #4a46c3;
+    border-color: #4a46c3;
+}
+
+.btn-danger {
+    background-color: #e74a3b;
+    border-color: #e74a3b;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+    border-color: #c0392b;
+}
+
+/* Hover effet sur les boutons */
+.hover-illuminate:hover {
+    background-color: #ffffff;
+    color: #6c63ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Alertes */
+.alert {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .card-header {
+        font-size: 1.25rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .btn-lg {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+
+    .form-control {
+        padding: 0.5rem 0.75rem;
+    }
+}

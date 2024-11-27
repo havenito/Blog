@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaires - {{ post.title }}{% endblock %}
+
+{% block body %}
+    <h1>Commentaires pour: {{ post.title }}</h1>
+
+    <div>
+        {% for comment in comments %}
+            <div class="comment mb-3">
+                <p><strong>{{ comment.user.firstName }} {{ comment.user.lastName }}</strong> le {{ comment.createdAt|date('d/m/Y H:i') }}</p>
+                <p>{{ comment.content }}</p>
+                
+                {% if comment.isAccepted %}
+                    <p class="approved">Commentaire approuvé</p>
+                {% else %}
+                    <p class="pending">En attente d'approbation</p>
+                {% endif %}
+                
+                {% if is_granted('ROLE_ADMIN') %}
+                    <!-- L'admin peut approuver ou supprimer un commentaire -->
+                    <form action="{{ path('admin_approve_comment', {'commentId': comment.id}) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-success">Approuver</button>
+                    </form>
+                    <form action="{{ path('admin_delete_comment', {'commentId': comment.id}) }}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Aucun commentaire pour cet article.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Condition pour l'ajout de commentaire -->
+    {% if app.user %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="alert alert-info mt-4">
+                <strong>En tant qu'administrateur, vous pouvez approuver et supprimer des commentaires, mais vous ne pouvez pas en ajouter.</strong>
+            </div>
+        {% else %}
+            <h2>Ajouter un commentaire</h2>
+            <form action="{{ path('post_add_comment', {'postId': post.id}) }}" method="POST">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(form) }}
+            </form>
+        {% endif %}
+    {% else %}
+        <p>Vous devez être connecté pour ajouter un commentaire. <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+    {% endif %}
+{% endblock %}

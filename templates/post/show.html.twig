@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/post-show.css') }}">
+{% endblock %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>{{ post.title }}</h1>
+    <p><strong>Publié le:</strong> {{ post.publishedAt|date('d/m/Y') }}</p>
+    <p><strong>Catégorie:</strong> <span class="badge bg-info">{{ post.category.name }}</span></p>
+
+    {% if post.picture %}
+        <img src="{{ asset('uploads/posts/' ~ post.picture) }}" class="card-img-top" alt="Image de {{ post.title }}">
+    {% else %}
+        <p><strong>Image de l'article :</strong> <span class="text-muted">Pas d'image disponible</span></p>
+    {% endif %}
+
+    <p>{{ post.content }}</p>
+
+    <div class="container mt-5">
+        <!-- Section des commentaires -->
+        <h3 class="border-bottom pb-2 mb-4">Commentaires</h3>
+
+        <!-- Liste des commentaires -->
+        {% for comment in post.comments %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="card-title mb-0 text-primary">{{ comment.user.firstName ~ ' ' ~ comment.user.lastName }}</h6>
+                        <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
+                    </div>
+                    <p class="card-text">{{ comment.content }}</p>
+
+                    <!-- Lien pour supprimer (uniquement pour l'administrateur) -->
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                        <form action="{{ path('post_delete_comment', {commentId: comment.id}) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm hover-illuminate" 
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">Supprimer</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">Aucun commentaire pour cet article.</p>
+        {% endfor %}
+
+        <!-- Gestion du message en fonction des rôles -->
+        {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+            <div class="alert alert-info mt-4">
+                Vous êtes administrateur, vous n'avez pas besoin d'ajouter de commentaires.
+            </div>
+        {% elseif app.user and 'ROLE_USER' in app.user.roles %}
+            <div class="card mt-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    Ajouter un commentaire
+                </div>
+                <div class="card-body">
+                    {{ form_start(commentForm, { 'attr': { 'class': 'needs-validation' } }) }}
+                        <div class="form-floating mb-3">
+                            {{ form_widget(commentForm.content, { 'attr': { 'class': 'form-control', 'placeholder': 'Laissez un commentaire ici...' } }) }}
+                            <label for="comment_content">Votre commentaire</label>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary btn-lg hover-illuminate">Publier</button>
+                        </div>
+                    {{ form_end(commentForm) }}
+                </div>
+            </div>
+        {% elseif app.user and 'ROLE_VISITOR' in app.user.roles %}
+            <div class="alert alert-warning mt-4">
+                Votre compte doit être validé pour ajouter un commentaire.
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4">
+                Vous devez être connecté pour ajouter un commentaire. <a href="{{ path('app_login') }}">Connectez-vous</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

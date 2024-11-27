@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/user-list.css') }}">
+{% endblock %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-dark fw-bold" style="font-size: 2.5rem;">Liste des utilisateurs</h1>
+
+    <div class="text-center mb-4">
+        <a href="{{ path('main') }}" class="btn btn-primary btn-lg hover-illuminate">Retour à l'accueil</a>
+    </div>
+
+    {% for flash_message in app.flashes('success') %}
+        <div class="alert alert-success fade-in">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.flashes('warning') %}
+        <div class="alert alert-warning fade-in">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.flashes('danger') %}
+        <div class="alert alert-danger fade-in">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.firstName }} {{ user.lastName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.isAccepted %}
+                                <span class="badge bg-success">Accepté</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Non accepté</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {% if not user.isAccepted %}
+                                    <a href="{{ path('user_accept', {'id': user.id}) }}" class="btn btn-success btn-sm hover-illuminate">Accepter</a>
+                                {% else %}
+                                    <a href="{{ path('user_reject', {'id': user.id}) }}" class="btn btn-danger btn-sm hover-illuminate">Refuser</a>
+                                {% endif %}
+                            {% endif %}
+                            <!-- Bouton Voir les détails -->
+                            <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info btn-sm hover-illuminate">Voir les détails</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<footer class="text-center py-4 bg-light mt-5 border-top">
+    <p class="text-muted mb-0">&copy; {{ "now"|date("Y") }} Mon Blog Moderne. Tous droits réservés.</p>
+</footer>
+{% endblock %}

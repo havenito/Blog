@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/main.css') }}">
+{% endblock %}
+
+{% block title %}Détails de l'utilisateur{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-dark fw-bold" style="font-size: 2.5rem;">Détails de l'utilisateur</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ user.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Profil</th>
+                        <td>
+                            {% if user.profilePicture %}
+                                <img src="{{ asset('uploads/posts/' ~ user.profilePicture) }}" alt="Photo de profil" class="img-fluid rounded-circle">
+                            {% else %}
+                                <span>Aucune photo de profil</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Statut</th>
+                        <td>
+                            {% if user.isActive %}
+                                <span class="badge bg-success">Actif</span>
+                            {% else %}
+                                <span class="badge bg-danger">Désactivé</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Accepté</th>
+                        <td>
+                            {% if user.isAccepted %}
+                                <span class="badge bg-primary">Accepté</span>
+                            {% else %}
+                                <span class="badge bg-secondary">En attente</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Date de création</th>
+                        <td>{{ user.createdAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <div class="btn-group" role="group">
+            <a href="{{ path('user_list') }}" class="btn btn-secondary btn-lg hover-illuminate">Retour à la liste</a>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                {% if user.isActive %}
+                    <a href="{{ path('user_deactivate', {'id': user.id}) }}" class="btn btn-warning btn-lg hover-illuminate">Désactiver</a>
+                {% else %}
+                    <a href="{{ path('user_activate', {'id': user.id}) }}" class="btn btn-success btn-lg hover-illuminate">Réactiver</a>
+                {% endif %}
+
+                {% if user.isAccepted %}
+                    <a href="{{ path('user_reject', {'id': user.id}) }}" class="btn btn-danger btn-lg hover-illuminate">Refuser</a>
+                {% else %}
+                    <a href="{{ path('user_accept', {'id': user.id}) }}" class="btn btn-primary btn-lg hover-illuminate">Accepter</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

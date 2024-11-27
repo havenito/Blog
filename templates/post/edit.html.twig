@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'article - {{ post.title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/post-form.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-dark fw-bold" style="font-size: 2.5rem;">Modifier l'article</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+
+                    {# Afficher les erreurs de formulaire #}
+                    {% if form.vars.errors|length > 0 %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <h5 class="alert-heading"><i class="fas fa-exclamation-circle"></i> Une erreur est survenue :</h5>
+                            {% for error in form.vars.errors %}
+                                <p class="mb-0">{{ error.message }}</p>
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+
+                    {# Formulaire de modification d'article #}
+                    {{ form_start(form) }}
+                    
+                    <div class="mb-3">
+                        {{ form_label(form.title, 'Titre de l\'article', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.title, {'attr': {'class': 'text-danger'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.content, 'Contenu de l\'article', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.content, {'attr': {'class': 'text-danger'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.category, {'attr': {'class': 'text-danger'}}) }}
+                    </div>
+
+                    {# Affichage de l'image actuelle si elle existe #}
+                    {% if post.picture %}
+                        <div class="mb-3">
+                            <label for="current_picture" class="form-label">Image actuelle :</label>
+                            <img src="{{ asset('uploads/posts/' ~ post.picture) }}" class="img-fluid" alt="Image actuelle de l'article">
+                        </div>
+                    {% endif %}
+
+                    {# Champ pour télécharger une nouvelle image #}
+                    <div class="mb-3">
+                        {{ form_label(form.picture, 'Image de l\'article', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.picture, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.picture, {'attr': {'class': 'text-danger'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Mettre à jour l'article</button>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

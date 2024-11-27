@@ -1,0 +1,150 @@
+/* Styles généraux */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Titre principal de la page */
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInAnimation 1.5s ease-in-out;
+}
+
+/* Description de la catégorie */
+p.text-muted {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+/* Animation fade-in pour les éléments */
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Section des articles */
+.row.g-4 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.col-md-4 {
+    flex: 1;
+    max-width: 30%;
+    min-width: 280px;
+}
+
+/* Cards */
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image dans la card */
+.card-img-top {
+    border-radius: 8px 8px 0 0;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+/* Corps de la carte */
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.card-text {
+    color: #6c757d;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+/* Footer de la carte */
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.card-footer small {
+    display: block;
+}
+
+/* Bouton "Lire l'article" */
+.btn {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 30px;
+    padding: 10px 20px;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+}
+
+.btn-primary:hover {
+    background-color: #4a46c3;
+    border-color: #4a46c3;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+/* Hover effet sur les boutons */
+.hover-illuminate:hover {
+    background-color: #ffffff;
+    color: #6c63ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .col-md-4 {
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.125rem;
+    }
+
+    .btn-lg {
+        font-size: 1rem;
+        padding: 8px 20px;
+    }
+}

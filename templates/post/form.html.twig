@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/post-form.css') }}">
+{% endblock %}
+
+{% block title %}
+    {{ post is defined and post.id ? 'Modifier' : 'Créer' }} un article
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4 text-dark fw-bold" style="font-size: 2.5rem;">
+        {{ post is defined and post.id ? 'Modifier' : 'Créer' }} un article
+    </h1>
+
+    {# Formulaire de création ou de modification d'un article #}
+    <div class="d-flex flex-column" style="min-height: 400px;">
+        {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_row(form.title, {'attr': {'class': 'form-control', 'placeholder': 'Titre de l\'article'}}) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.content, {'attr': {'class': 'form-control', 'placeholder': 'Contenu de l\'article'}}) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.category, {'attr': {'class': 'form-control', 'placeholder': 'Catégorie de l\'article'}}) }}
+            </div>
+            
+            <div class="mb-3">
+                {{ form_row(form.picture, {'attr': {'class': 'form-control', 'placeholder': 'Ajouter une image'}}) }}
+            </div>
+
+            {# Affichage de la date de publication, si nécessaire. #}
+            <div class="mb-3">
+                {{ form_row(form.publishedAt) }}
+            </div>
+
+
+        {{ form_end(form) }}
+    </div>
+
+    {# Si l'article est modifié, un bouton de retour à la liste des articles est disponible #}
+    {% if post is defined and post.id %}
+        <div class="text-center mt-3">
+            <a href="{{ path('post_list') }}" class="btn btn-secondary hover-illuminate">Retour à la liste des articles</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+

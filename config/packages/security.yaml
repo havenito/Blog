@@ -1,29 +1,50 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    # Gestion des hashers de mots de passe
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+
+    # Fournisseurs d'utilisateurs
     providers:
-        users_in_memory: { memory: null }
+        # Charge les utilisateurs depuis la base de données via l'entité User
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
+            # Configuration pour le formulaire de connexion
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                username_parameter: email # Correspond au champ "email" dans le formulaire
+                password_parameter: password # Correspond au champ "password" dans le formulaire
+                default_target_path: main
+                
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
+            # Configuration pour la déconnexion
+            logout:
+                path: app_logout
+                target: main
+                
+
+            # Autres configurations possibles pour ce firewall
             # switch_user: true
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    # Contrôle des accès
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Exemples d'accès :
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/profile, roles: ROLE_USER }
+
 
 when@test:
     security:
